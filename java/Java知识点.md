@@ -794,16 +794,140 @@ public class StaticTest {
 	- 否则，查找Dynamic Import列表的Bundle，委派给对应的Bundle的类加载器加载
 	- 否则，类查找失败
 
-## 24、动态代理
 
-## 25、java8中HashMap的变化
+## 24、java8中HashMap的变化
 [Java8和Java7中HashMap的变化](https://www.cnblogs.com/jajian/p/10385063.html)
 
-## 26、什么是AQS
+## 25、什么是AQS
 [AQS的全称是AbstractQueuedSynchronizer：抽象队列同步器。](https://www.cnblogs.com/waterystone/p/4920797.html)
 
-## 27、java8中ConcurrentHashMap的变化
+## 26、java8中ConcurrentHashMap的变化
 [Java8之前ConcurrentHashMap的原理分析](https://blog.csdn.net/jiahao1186/article/details/83689241)
 [Java8中的ConcurrentHashMap的原理分析](https://blog.csdn.net/u010723709/article/details/48007881)
 
-## 28、反射
+## 27、Java内存模型（Java Memory Model）
+
+
+## 28、动态代理
+java.lang.reflect.Proxy：Proxy提供用于创建动态代理类和实例的静态方法，它还是由这些方法创建的所有动态代理类的超类。   
+java.lang.reflect.InvocationHandler：是代理实例的调用处理程序实现的接口。对代理实例调用方法时，将对方法调用进行编码并将其指派到它的调用处理程序的 `invoke` 方法。  
+
+```java
+/**
+ * 被代理接口
+ */
+public interface AccountService {
+	
+	void queryAccountBal();
+	
+}
+
+/**
+ * 被代理类
+ */
+public class DefaultAccountServiceImpl implements AccountService{
+
+	@Override
+	public void queryAccountBal() {
+		System.out.println("my account bal is 100.10$");
+	}
+
+}
+
+
+
+/**
+ * 代理类，必须要继承InvocationHandler，并且被代理类必须实现某个接口
+ */
+public class ProxyHandler implements InvocationHandler{
+	
+	private Object obj;
+	
+	public ProxyHandler(Object obj){
+		this.obj = obj;
+	}
+	
+	public Object invoke(Object proxy, Method method, Object[] args)
+			throws Throwable {
+		System.out.println("before invoke");
+		// 这里的obj其实是AccountService的动态代理类。这样可以在执行真正的DefaultAccountServiceImpl的queryAccountBal方法前后加入与业务逻辑无关的处理，比如事务控制，记录日志等等
+		method.invoke(obj, args);
+		System.out.println("after invoke");
+		return null;
+	}
+
+}
+
+
+public class TestProxy {
+
+	public static void main(String[] args) throws Throwable {
+		// 被代理类
+		AccountService ps = new DefaultAccountServiceImpl();
+		// 代理类
+		InvocationHandler handler = new ProxyHandler(ps);
+		// Proxy.newProxyInstance生成代理对象
+		AccountService service = (AccountService) Proxy.newProxyInstance(AccountService.class.getClassLoader(), new Class[]{AccountService.class} , handler);
+		service.queryAccountBal();
+		
+	}
+
+}
+
+```
+
+## 29、静态代理
+
+```java
+/**
+ * 公共接口
+ */
+public interface PeopleService {
+	void sing();
+}
+
+/**
+ *	被代理类，实现PeopleService公共接口
+ */
+public class PeopleServiceImpl implements PeopleService{
+
+	public void sing() {
+		System.out.println("people sing");
+	}
+	
+}
+
+/**
+ * 代理类，也实现了PeopleService公共接口。但是真正逻辑由PeopleServiceImpl完成
+ */
+public class PeopleProxy implements PeopleService{
+	
+	private PeopleService people;
+	
+	public PeopleProxy(PeopleService people){
+		this.people = people;
+	}
+	
+	public void sing() {
+        // 可以在这里实现业务无关的逻辑，如事务、日志等等
+		System.out.println("代理类开始");
+		people.sing();
+		System.out.println("代理类结束");
+	}
+
+}
+
+/**
+ * 测试静态代理
+ */
+public class Test {
+
+	public static void main(String[] args) {
+
+		PeopleService PeopleService = new PeopleServiceImpl();
+		PeopleProxy proxy = new PeopleProxy(PeopleService);
+		proxy.sing();
+	}
+
+}
+```
