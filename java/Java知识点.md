@@ -931,3 +931,192 @@ public class Test {
 
 }
 ```
+
+## 30、RMI
+
+远程方法调用（remote method invocation）：能够让在客户端Java虚拟机上的对象像调用本地方法一样调用另一个Java虚拟机中的方法。
+
+RMI远程调用步骤：
+
+- 客户端调用客户端辅助对象stub上的方法
+- 客户端辅助对象stub打包调用信息（变量、方法名），通过网络发送给服务端辅助对象skeleton
+- 服务端辅助对象skeleton将客户端辅助对象发送来的信息解包，找出真正被调用的方法以及该方法所在对象
+- 调用真正服务对象上的真正方法，并将结果返回给服务端辅助对象skeleton
+- 服务端辅助对象skeleton将结果打包，发送给客户端辅助对象stub
+- 客户端辅助对象stub将结果解析，返回给调用者
+- 客户端获取返回值
+
+RMI示例----服务端代码
+
+```java
+/**
+ * 远程方法接口，必须继承Remote接口
+ */
+public interface CifQueryService extends Remote {
+
+	// 由于方法都是远程调用的，可能出现通讯异常，所以所有方法都要抛出异常
+	public void queryCifInfo() throws RemoteException;
+	
+	public String queryCifName() throws RemoteException;
+}
+
+/**
+ *	远程方法实现一，需继承UnicastRemoteObject类，serialVersionUID序列化字段
+ */
+public class CifQueryServiceImpl extends UnicastRemoteObject implements
+		CifQueryService {
+
+	private static final long serialVersionUID = -285874256933727869L;
+
+	// 由于UnicastRemoteObject类的构造函数抛出了RemoteException，
+	// 故其继承类不能使用默认构造函数，继承类的构造函数也必须抛出RemoteException
+	protected CifQueryServiceImpl() throws RemoteException {
+		super();
+	}
+
+	@Override
+	public void queryCifInfo() throws RemoteException {
+		System.out.println("瓦里安");
+	}
+
+	@Override
+	public String queryCifName() throws RemoteException {
+		return "安度因";
+	}
+
+}
+
+/**
+ *	远程方法实现二，需继承UnicastRemoteObject类，serialVersionUID序列化字段
+ */
+public class DefaultCifQueryServiceImpl extends UnicastRemoteObject  implements CifQueryService {
+
+	private static final long serialVersionUID = -2858742569337112869L;
+
+	// 由于UnicastRemoteObject类的构造函数抛出了RemoteException，
+	// 故其继承类不能使用默认构造函数，继承类的构造函数也必须抛出RemoteException
+	protected DefaultCifQueryServiceImpl() throws RemoteException {
+		super();
+	}
+
+	@Override
+	public void queryCifInfo() throws RemoteException {
+		System.out.println("古伊尔");
+	}
+
+	@Override
+	public String queryCifName() throws RemoteException {
+		return "萨尔";
+	}
+
+}
+
+/**
+ * 注册远程方法
+ */
+public class TestRmiServer {
+
+	public static void main(String[] args) {
+		CifQueryService cifqueryService1 = null;
+		CifQueryService cifqueryService2 = null;
+		try {
+			cifqueryService1 = new CifQueryServiceImpl();
+			cifqueryService2 = new DefaultCifQueryServiceImpl();
+			/**
+			 * 生成远程对象注册表Registry的实例，并指定端口为6666（默认端口是1099）
+			 * 注册中心
+			 */
+			LocateRegistry.createRegistry(6666);
+			/**
+			 * Naming类提供在对象注册注册表中存储和获得远程对远程对象引用的方法
+			 * Naming类的每个参数都可以讲某个名称作为其一个参数
+			 * host:port/name
+			 * host：注册表所在的主机（远程或本地)，省略则默认为本地主机
+			 * port：是注册表接受调用的端口号，省略则默认为1099，RMI注册表registry使用的著名端口
+			 * name：是未经注册表解释的简单字符串
+			 */
+			Naming.bind("rmi://127.0.0.1:6666/CifQuery1", cifqueryService1);
+			Naming.bind("rmi://127.0.0.1:6666/CifQuery2", cifqueryService2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("success");
+	}
+
+}
+```
+
+
+
+RMI示例----客户端代码
+
+```java
+/**
+ *	调用RMI远程方法。CifQueryService在客户端项目中也需要有一份一样的，包括路径名
+ */
+public class ClientTestRmi {
+
+	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
+		// 在rmi服务注册表中查找对象，并调用其方法
+		CifQueryService service1 = (CifQueryService) Naming.lookup("rmi://127.0.0.1:6666/CifQuery1");
+		service1.queryCifInfo();
+		System.out.println(service1.queryCifName());
+		
+		CifQueryService service2 = (CifQueryService) Naming.lookup("rmi://127.0.0.1:6666/CifQuery2");
+		service2.queryCifInfo();
+		System.out.println(service2.queryCifName());
+	}
+
+}
+```
+
+
+
+RMI的优点：
+
+- 使用简单，只需要按照规范定义自己的服务对象即可
+
+- 支持扁平化的服务需求，一个注册中心，多个服务提供者
+
+- 分布式客户端处理
+
+- 具有一定的安全性，传输中调用的方法和请求服务均是采用Hash和ObjectId对应
+
+  
+
+RMI的缺点：
+
+- 注册中心和服务提供者必须在同一台机器上，不支持分布式部署的要求
+- 服务提供者宕机后，注册中心完全感知不到，没有服务可用性的检测机制
+- 不支持重试机制
+- 序列化效率不高
+- 客户端每次请求前都要去注册中心获取最新的服务信息
+- 只支持Java语言
+- 所有的服务均要从注册中心获取，注册中心挂掉后，所以服务均不可用
+- 服务端采用的是BIO的模式，效率上不如NIO
+
+
+
+## 31、RPC
+
+远程过程调用（remote procedure call）
+
+调用步骤：
+
+- 消费方client以调用本地方法的形式调用服务
+- client stub接收到调用后负责将方法、参数等组装成能够进行网络传输的消息体
+- client stub找到服务地址，并将消息发送到服务端
+- server stub收到消息后进行解码，并调用本地服务
+- 本地服务将结果返回给server stub，stub将结果发送至消费方
+- client stub接收到消息，并进行解码
+- 消费方得到最终结果
+
+
+RPC的目标就是要把中间的步骤封装起来，让用户对这些细节透明化。要实现这些，就需要解决以下问题：
+
+- 服务的注册与发现
+- 网络通信
+- 序列化和反序列化
+
+
+RMI和RPC的区别：
