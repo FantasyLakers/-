@@ -624,10 +624,10 @@ ThreadLocalMap使用ThreadLocal的弱引用作为key，如果一个ThreadLocal�
 前面四种IO模型实际上都属于同步IO，只有最后一种是真正的异步IO，因为无论是多路复用IO还是信号驱动模型，IO操作的第2个阶段都会引起用户线程阻塞，也就是从内核进行数据拷贝的过程都会让用户线程阻塞。
 
 ## 16、Java中的字节流和字符流
-![image](https://github.com/FantasyLakers/my-lessons/blob/master/java/java%20IO%E7%BB%93%E6%9E%84%E5%9B%BE.png?raw=true)
+![images](https://github.com/FantasyLakers/my-lessons/blob/master/java/java%20IO%E7%BB%93%E6%9E%84%E5%9B%BE.png)
 
 ## 17、NIO
-![image](https://github.com/FantasyLakers/my-lessons/blob/master/java/NIO%E6%A8%A1%E5%9E%8B.png?raw=true)
+![images](https://github.com/FantasyLakers/my-lessons/blob/master/java/NIO%E6%A8%A1%E5%9E%8B.png)
 
 ## 18、零拷贝 zero copy
 Java的NIO为了支持零拷贝，提供了一些类：
@@ -783,7 +783,7 @@ public class StaticTest {
 
 ## 双亲委派模型工作流程
 如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的类加载器请求最终都应该传送到顶层的启动类加载器中，只有当父加载器反馈无法完成这个加载请求（它的搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。使用双亲委派模型来组织类加载器之间的关系，有一个显而易见的好处就是Java类随着它的类加载器一起具备了一种带有优先级的层次关系。例如类java.lang.Object，它存放在rt.jar中，无论哪一个类加载器要加载这个类，最终都是委派给处于模型最顶端的启动类加载器进行加载，因此Object类在程序的各种类加载器环境中都是同一个类。
-![image](https://github.com/FantasyLakers/my-lessons/blob/master/java/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B%E5%9B%BE.jpg?raw=true)
+![images](https://github.com/FantasyLakers/my-lessons/blob/master/java/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B%E5%9B%BE.jpg)
 
 ### 双亲委派模型的破坏
 - 双亲委派模型的第一次被破坏发生在双亲委派模型出现之前---即JDK1.2发布之前。由于双亲委派模型后出现，而类加载器和抽象类java.lang.ClassLoader则在JDK1.0时代就已存在，面对已经存在的用户自定义类加载器的实现代码，Java设计者引入双亲委派模型型不得不做出妥协。为了向前兼容，JDK1.2之后的java.lang.ClassLoader添加了一个新的protected方法findClass()，在此之前，用户去继承java.lang.ClassLoader的唯一目的就是重写loadClass方法，因为虚拟机在进行类加载的时候会调用加载器的私有方法loadClassInternal()，而这个方法的唯一逻辑就是去调用自己的loadClass()。JDK1.2以后已不提倡用户再去覆盖loadClass()方法，而应当把自己的类加载逻辑写道findClass()方法中，在loadClass()方法的逻辑里如果父类加载失败，则会调用自己的findClass()方法来完成加载，这样就可以保证新写出来的类加载器是符合双亲委派规则的。
