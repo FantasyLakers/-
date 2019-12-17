@@ -25,11 +25,14 @@
 - [汇总](https://github.com/FantasyLakers/my-lessons/blob/master/redis/%E8%B5%84%E6%96%99.md)
 
 ## Kafka
+- [汇总](https://github.com/FantasyLakers/my-lessons/blob/master/kafka/%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%82%B9.md)
 
 ## 数据库
+- [数据库基本知识点](https://github.com/FantasyLakers/my-lessons/blob/master/database/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%90%86%E8%AE%BA.md)
 - [MySQL汇总](https://github.com/FantasyLakers/my-lessons/blob/master/database/MySQL/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
 
 ## 网络
+- [汇总](https://github.com/FantasyLakers/my-lessons/blob/master/%E7%BD%91%E7%BB%9C/%E8%B5%84%E6%96%99.md)
 
 ## zookeeper
 
