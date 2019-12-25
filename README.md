@@ -30,11 +30,11 @@
 ## 数据结构与算法
 
 - [基础知识](https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md)
-- [冒泡排序]([https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md#10%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F-bubble-sort](https://github.com/FantasyLakers/my-lessons/blob/master/数据结构与算法/资料.md#10冒泡排序-bubble-sort))
-- [插入排序]([https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md#11%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F-insertion-sort](https://github.com/FantasyLakers/my-lessons/blob/master/数据结构与算法/资料.md#11插入排序-insertion-sort))
-- [选择排序]([https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md#12%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F-selection-sort](https://github.com/FantasyLakers/my-lessons/blob/master/数据结构与算法/资料.md#12选择排序-selection-sort))
-- [快速排序]([https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md#14%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-quick-sort](https://github.com/FantasyLakers/my-lessons/blob/master/数据结构与算法/资料.md#14快速排序-quick-sort))
-- [B树和B+树]([https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md#33b%E6%A0%91](https://github.com/FantasyLakers/my-lessons/blob/master/数据结构与算法/资料.md#33b树))
+- [冒泡排序](https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md#10%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F-bubble-sort)
+- [插入排序](https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md#11%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F-insertion-sort)
+- [选择排序](https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md#12%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F-selection-sort)
+- [快速排序](https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md#14%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-quick-sort)
+- [B树和B+树](https://github.com/FantasyLakers/my-lessons/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E8%B5%84%E6%96%99.md#33b%E6%A0%91)
 
 
 
