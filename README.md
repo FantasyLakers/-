@@ -12,6 +12,7 @@
 - [ConcurrentHashMap原理 1.8之前](https://blog.csdn.net/jiahao1186/article/details/83689241)
 - [ConcurrentHashMap原理 1.8之后](https://blog.csdn.net/u010723709/article/details/48007881)
 - [动态代理](https://github.com/FantasyLakers/my-lessons/blob/master/java/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md#26%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86)
+- [线程池](https://github.com/FantasyLakers/my-lessons/blob/master/java/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md#5%E7%BA%BF%E7%A8%8B%E6%B1%A0)
 
 ## Spring
 - [汇总](https://github.com/FantasyLakers/my-lessons/blob/master/java/Spring/%E8%B5%84%E6%96%99.md)
@@ -23,6 +24,9 @@
 
 ## Redis
 - [汇总](https://github.com/FantasyLakers/my-lessons/blob/master/redis/%E8%B5%84%E6%96%99.md)
+- [redis过期策略](https://github.com/FantasyLakers/my-lessons/blob/master/redis/%E8%B5%84%E6%96%99.md#12redis%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5)
+-[什么是缓存雪崩、缓存穿透、缓存击穿](https://github.com/FantasyLakers/my-lessons/blob/master/redis/%E8%B5%84%E6%96%99.md#13%E4%BB%80%E4%B9%88%E6%98%AF%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF)
+- [如何保证缓存和数据库的双写一致性](https://github.com/FantasyLakers/my-lessons/blob/master/redis/%E8%B5%84%E6%96%99.md#14%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7)
 
 ## Kafka
 - [汇总](https://github.com/FantasyLakers/my-lessons/blob/master/kafka/%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%82%B9.md)
@@ -34,6 +38,8 @@
 ## 网络
 - [汇总](https://github.com/FantasyLakers/my-lessons/blob/master/%E7%BD%91%E7%BB%9C/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
 - [什么是TCP粘包和拆包](https://github.com/FantasyLakers/my-lessons/blob/master/%E7%BD%91%E7%BB%9C/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md#%E7%B2%98%E5%8C%85%E5%92%8C%E6%8B%86%E5%8C%85)
+- [http1.x和http2.0的区别](https://github.com/FantasyLakers/my-lessons/blob/master/%E7%BD%91%E7%BB%9C/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md#1http1x%E5%92%8Chttp20)
+- [tcp三次握手和四次挥手](https://blog.csdn.net/hyg0811/article/details/102366854)
 
 ## zookeeper
 
