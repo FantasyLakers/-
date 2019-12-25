@@ -1224,4 +1224,186 @@ RPC调用函数，RPC中是通过网络服务协议向远程主机发送请求�
 -XX:NewSize=n 设置年轻代大小  
 -XX:NewRatio=n 设置年轻代和年老代的比例。假如值为3，表示年轻代和年老代比值为1:3  
 -XX:+PrintGCDetails：打印gc日志  
--XX:+PrintHeapAtGC：在gc前后，都输出详细的堆信息  
+-XX:+PrintHeapAtGC：在gc前后，都输出详细的堆信息 
+
+## 31、深克隆、浅克隆
+
+浅克隆：指拷贝对象时仅仅拷贝对象本身（包括对象中的基本变量），而不拷贝包含的引用指向的对象。
+
+深克隆：不仅拷贝对象本身，而且拷贝对象包含的引用指向的所有对象。
+
+```java
+public class Wheel implements Cloneable{
+	// 数量
+	private int count;
+	// 品牌
+	private String type;
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "Wheel [count=" + count + ", type=" + type + "]";
+	}
+	
+	  protected Object clone() throws CloneNotSupportedException{
+		  return super.clone();
+	  }
+}
+
+public class Car implements Cloneable {
+	// 车名字
+	private String name;
+	// 车品牌
+	private String type;
+	// 价格
+	private double amount;
+	// 轮胎
+	private Wheel wheel;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Wheel getWheel() {
+		return wheel;
+	}
+
+	public void setWheel(Wheel wheel) {
+		this.wheel = wheel;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	@Override
+	public String toString() {
+		return "Car [name=" + name + ", type=" + type + ", amount=" + amount + ", wheel=wheelCount " + wheel.getCount()
+				+ " wheelType " + wheel.getType() + "]";
+	}
+
+	  protected Object clone() throws CloneNotSupportedException{
+		  
+		  /**
+		   * 深克隆
+		   */
+//		  Car car = (Car) super.clone();
+//		  Wheel wheel = (Wheel) car.getWheel().clone();
+//		  car.setWheel(wheel);
+//		  return car;
+		  
+		  /**
+		   * 浅克隆
+		   */
+		  return super.clone();
+	  }
+}
+
+// 测试方法
+public void testcopy() throws Exception {
+		
+		Car car = new Car();
+		car.setAmount(1999.12d);
+		car.setType("benz");
+		car.setName("小张的车");
+		
+		Wheel wheel = new Wheel();
+		wheel.setCount(4);
+		wheel.setType("米其林");
+		car.setWheel(wheel);
+
+		/**
+		 *  复制Car对象
+		 */
+		Car copyCar = (Car) car.clone();
+		copyCar.setAmount(2000.00d);
+		car.setType("bmw");
+		copyCar.setName("二手车");
+		
+		copyCar.getWheel().setType("复制米其林");
+		
+		/**
+		 * 可以看到浅克隆和深克隆时对象的基本属性值都复制了，且互不影响
+		 */
+		System.out.println(car);
+		System.out.println(copyCar);
+		
+		/**
+		 * 浅克隆：指拷贝对象时仅仅拷贝对象本身（包括对象中的基本变量），而不拷贝包含的引用指向的对象。
+		 * 深克隆：不仅拷贝对象本身，而且拷贝对象包含的引用指向的所有对象。
+		 */
+		System.out.println(car == copyCar);
+		System.out.println(car.getWheel() == copyCar.getWheel());
+	}
+
+// 浅克隆时的测试结果
+Car [name=小张的车, type=bmw, amount=1999.12, wheel=wheelCount 4 wheelType 复制米其林]
+Car [name=二手车, type=benz, amount=2000.0, wheel=wheelCount 4 wheelType 复制米其林]
+false
+true
+
+// 深克隆的测试结果
+Car [name=小张的车, type=bmw, amount=1999.12, wheel=wheelCount 4 wheelType 米其林]
+Car [name=二手车, type=benz, amount=2000.0, wheel=wheelCount 4 wheelType 复制米其林]
+false
+false
+```
+
+
+
+
+
+## 32、线程状态，Blocked和Waiting的区别
+
+- NEW：Thread state for a thread which has not yet started
+- RUNNABLE：A thread in the runnable state is executing in the Java virtual machine but it may be waiting for other resources from the operating system such as processor.
+- BLOCKED：A thread in the blocked state is waiting for a monitor lock to enter a synchronized block/method or reenter a synchronized block/method after calling
+- WAITING：A thread in the waiting state is waiting for another thread to perform a particular action
+  - Object.wait()
+  - Thread.join()
+- TIMED_WAITING：A thread is in the timed waiting state due to calling one of the following methods with a specified positive waiting time
+  - Thread.sleep
+  - Object.wait with timeout
+  - Thread.join with timeout
+  - LockSupport.parkNanos
+  - LockSupport.parkUntil
+- TERMINATED：Thread state for a terminated thread. The thread has completed execution
+
+
+
+### Blocked和Waiting的区别
+
+WAITING状态的线程是主动放弃cpu，并等待其它线程唤醒它。
+
+BLOCKED状态的线程是被动进入阻塞状态的，该线程进入一个同步代码块时，但拿不到同步代码块的锁。
