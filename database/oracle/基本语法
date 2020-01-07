@@ -1,18 +1,15 @@
+
 # oracle基本知识点
 
 
 
 ## 1、rownum查询和分页
 
-```sql
--- 分页查询
+--分页查询
 select * from (select rownum as num, a.* from table_name a order by a.id desc) where num between 1 and 5;
-```
 
-```sql
+
 select * from table where rownum > 5; 
-```
-
 这种写法查出来是空的，因为rownum是从表中将数据加载到缓冲区，当第一条数据加载进来时，rownum=1，不满足rownum > 5条件，删除记录，继续取下一条，也不满足条件，所以该语句无法查询到数据。
     
 
@@ -20,16 +17,16 @@ select * from table where rownum > 5;
 
 - 查询主外键：CONSTRAINT_TYPE：R为外键，P为主键
 
-  ```sql
+
    select *
     from user_constraints t
    where t.CONSTRAINT_TYPE = 'R'
      and t.CONSTRAINT_NAME = 'FK_FEETRSCO_REFERENCE_FEETRSCO';
-  ```
+
 
 - 查询sequence：
 
-  ```sql
+
   --管理员
   select SEQUENCE_OWNER,SEQUENCE_NAME,INCREMENT_BY,LAST_NUMBER,MIN_VALUE,MAX_VALUE from dba_sequences where SEQUENCE_OWNER='SYSMAN';
   
@@ -38,19 +35,19 @@ select * from table where rownum > 5;
   
   --查询超过75%使用率的sequence
   select SEQUENCE_NAME,LAST_NUMBER/MAX_VALUE from user_sequences where  LAST_NUMBER/MAX_VALUE >0.75;
-  ```
+
 
 - 查询表空间：
 
-  ```sql
+
   select * from user_tablespaces;
-  ```
+
 
   
 
 ## 3、oracle序列
 
-```sql
+
 CREATE SEQUENCE sequence  //创建序列名称
 		[INCREMENT BY n]  //递增的序列值是n 如果n是正数就递增,如果是负数就递减 默认是1
 		[START WITH n]    //开始的值,递增默认是minvalue 递减是maxvalue
@@ -63,13 +60,12 @@ CREATE SEQUENCE sequence  //创建序列名称
 select seq_name.currval from dual;
 --查询下一个序列号
 select seq_name.nextval from dual;
-```
+
 
 
 
 ## 4、case when 语句
 
-```sql
 select count(case
                when f.id < 10 then
                 1
@@ -95,7 +91,7 @@ select f.id,
           '未知'
        end) sex
   from table_name f;
-```
+
 
 
 
@@ -103,9 +99,9 @@ select f.id,
 
 decode(条件,值1,返回值1,值2,返回值2,...值n,返回值n,缺省值)
 
-```sql
+
 select f.id, decode(f.sex, 1, '男', 2, '女', 3, '未知', '其他') sex from table_name f;
-```
+
 
 
 
@@ -113,9 +109,9 @@ select f.id, decode(f.sex, 1, '男', 2, '女', 3, '未知', '其他') sex from t
 
 sign()函数根据某个值是0、正数还是负数，分别返回0、1、-1
 
-```sql
+
 select sign(f.id1-f.id2) from table_name f;
-```
+
 
 
 
@@ -134,4 +130,5 @@ select sign(f.id1-f.id2) from table_name f;
 - floor()：向下取整
 - nvl('args1','args2')：args1为空，则返回args2，否则返回args1
 - nvl2('args1','args2','args3')：如果args1不为空，则返回args2，否则返回args3
+
 
