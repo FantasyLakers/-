@@ -1,1 +1,137 @@
+# oracle基本语法
+
+## 1、rownum查询和分页
+
+分页查询
+
+```sql
+ select * from (select rownum as num, a.* from table_name a order by a.id desc) where num between 1 and 5;
+```
+
+```sql
+select * from table where rownum > 5; 
+```
+
+这种写法查出来是空的，因为rownum是从表中将数据加载到缓冲区，当第一条数据加载进来时，rownum=1，不满足rownum > 5条件，删除记录，继续取下一条，也不满足条件，所以该语句无法查询到数据。
+    
+
+## 2、常用系统表
+
+- 查询主外键：CONSTRAINT_TYPE：R为外键，P为主键
+
+  ```sql
+   select *
+    from user_constraints t
+   where t.CONSTRAINT_TYPE = 'R'
+     and t.CONSTRAINT_NAME = 'FK_FEETRSCO_REFERENCE_FEETRSCO';
+  ```
+
+- 查询sequence：
+
+  ```sql
+  --管理员
+  select SEQUENCE_OWNER,SEQUENCE_NAME,INCREMENT_BY,LAST_NUMBER,MIN_VALUE,MAX_VALUE from dba_sequences where SEQUENCE_OWNER='SYSMAN';
+  
+  --普通用户
+  select SEQUENCE_NAME,INCREMENT_BY,LAST_NUMBER,MIN_VALUE,MAX_VALUE from user_sequences;
+  
+  --查询超过75%使用率的sequence
+  select SEQUENCE_NAME,LAST_NUMBER/MAX_VALUE from user_sequences where  LAST_NUMBER/MAX_VALUE >0.75;
+  ```
+
+- 查询表空间：
+
+  ```sql
+  select * from user_tablespaces;
+  ```
+
+  
+
+## 3、oracle序列
+
+```sql
+CREATE SEQUENCE sequence  //创建序列名称
+		[INCREMENT BY n]  //递增的序列值是n 如果n是正数就递增,如果是负数就递减 默认是1
+		[START WITH n]    //开始的值,递增默认是minvalue 递减是maxvalue
+		[{MAXVALUE n | NOMAXVALUE}] //最大值
+		[{MINVALUE n | NOMINVALUE}] //最小值
+		[{CYCLE | NOCYCLE}] //循环/不循环
+		[{CACHE n | NOCACHE}];//分配并存入到内存中 
+
+--查询当前序列号
+select seq_name.currval from dual;
+--查询下一个序列号
+select seq_name.nextval from dual;
+```
+
+
+
+## 4、case when 语句
+
+```sql
+select count(case
+               when f.qaid < 10 then
+                f.orderno
+             end) sum1,
+       	count(case
+               when f.qaid>=10 and f.qaid <40 then
+                f.orderno
+             end) sum2,
+       	count(case
+               when f.qaid>=40then
+                f.orderno
+             end) sum3
+  	from faqitem f;
+
+select f.qaid,
+       	f.question,
+       	(case
+         	when f.linked = '1' then
+          	'张'
+        	 when f.linked = '2' then
+          	'王'
+         else
+          '赵'
+       end) linked
+  from faqitem f;
+```
+
+
+
+## 5、decode
+
+decode(条件,值1,返回值1,值2,返回值2,...值n,返回值n,缺省值)
+
+```sql
+select f.question, decode(f.linked, 1, '手机', 2, '账户', 3, '信用卡', '其他') 链接
+  		from faqitem f;
+```
+
+
+
+## 6、sign函数
+
+sign()函数根据某个值是0、正数还是负数，分别返回0、1、-1
+
+```sql
+select sign(f.id1-f.id2) from table_name f;
+```
+
+
+
+## 7、常用函数
+
+- round('345.336','2')：四舍五入 ，2表示保留几位小数
+- trunc(number,num_digits)：number为需要截尾取整的数字。num_digits用于指定取整精度的数字，默认值为 0。如果num_digits为正数，则截取小数点后num_digits位；如果为负数，则先保留整数部分，然后从个位开始向前数，并将遇到的数字都变为0。trunc()函数在截取时不进行四舍五入，直接截取。也可以对时间使用  trunc(sysdate)
+- string string, int a, int b：a为截取字符串的开始位置（注：当a等于0或1时，都是从第一位开始截取），b为要截取的字符串的长度。例如，substr('123456','3','1')，结果为3
+- instr('345')：查找子串第一次出现的位置
+- 使用Ascii码函数：select ascii('&') from dual;  select chr(38) from dual;
+- replace('aaabbc','aa','f')：替换第一个aa为f，replace('aaabbc','a','f')，替换所有的a为f
+- mod()：取余数  select mod('9','4') from dual;
+- power()：求幂  select power('9','2') from dual;
+- sqrt('9')： 求平方根  select sqrt('9') from dual;
+- ceil()：向上取整  
+- floor()：向下取整
+- nvl('args1','args2')：args1为空，则返回args2，否则返回args1
+- nvl2('args1','args2','args3')：如果args1不为空，则返回args2，否则返回args3
 
