@@ -1,11 +1,12 @@
-# oracle基本语法
+# oracle基本知识点
+
+
 
 ## 1、rownum查询和分页
 
-分页查询
-
 ```sql
- select * from (select rownum as num, a.* from table_name a order by a.id desc) where num between 1 and 5;
+-- 分页查询
+select * from (select rownum as num, a.* from table_name a order by a.id desc) where num between 1 and 5;
 ```
 
 ```sql
@@ -70,30 +71,30 @@ select seq_name.nextval from dual;
 
 ```sql
 select count(case
-               when f.qaid < 10 then
-                f.orderno
+               when f.id < 10 then
+                1
              end) sum1,
        	count(case
-               when f.qaid>=10 and f.qaid <40 then
-                f.orderno
+               when f.id>=10 and f.id <40 then
+                2
              end) sum2,
        	count(case
-               when f.qaid>=40then
-                f.orderno
+               when f.id>=40 then
+                3
              end) sum3
-  	from faqitem f;
+  	from table_name f;
 
-select f.qaid,
-       	f.question,
+select f.id,
+       	f.name,
        	(case
-         	when f.linked = '1' then
-          	'张'
-        	 when f.linked = '2' then
-          	'王'
+         	when f.sex = '1' then
+          	'男'
+        	 when f.sex = '2' then
+          	'女'
          else
-          '赵'
-       end) linked
-  from faqitem f;
+          '未知'
+       end) sex
+  from table_name f;
 ```
 
 
@@ -103,8 +104,7 @@ select f.qaid,
 decode(条件,值1,返回值1,值2,返回值2,...值n,返回值n,缺省值)
 
 ```sql
-select f.question, decode(f.linked, 1, '手机', 2, '账户', 3, '信用卡', '其他') 链接
-  		from faqitem f;
+select f.id, decode(f.sex, 1, '男', 2, '女', 3, '未知', '其他') sex from table_name f;
 ```
 
 
